@@ -1,4 +1,3 @@
-// src/components/TiptapEditor.tsx
 import { useEffect, useState, useRef } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -25,11 +24,11 @@ const TiptapEditor = ({ documentId, user }: EditorProps) => {
   const [title, setTitle] = useState('Cargando...')
   const [status, setStatus] = useState('En línea')
   const [lastModified, setLastModified] = useState<string | null>(null)
-  const [onlineUsers, setOnlineUsers] = useState<any[]>([]) // Lista de usuarios
-  const [showShareModal, setShowShareModal] = useState(false) // <--- NUEVO
+  const [onlineUsers, setOnlineUsers] = useState<any[]>([])
+  const [showShareModal, setShowShareModal] = useState(false) 
   const lastContentRef = useRef<string>('') 
 
-  // 1. CONFIGURACIÓN DEL EDITOR (Estable, sin Y.js)
+  // 1. CONFIGURACIÓN DEL EDITOR
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ history: true }), 
@@ -65,16 +64,11 @@ const TiptapEditor = ({ documentId, user }: EditorProps) => {
     init()
   }, [documentId, editor])
 
-  // Lógica para detectar ?print=true y lanzar la impresora
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     if (params.get('print') === 'true') {
-      // Esperamos un poco a que el contenido cargue (2 segundos es seguro)
-      // Si tu internet es lento, quizás necesites un poco más, pero 2000ms suele bastar
       const timer = setTimeout(() => {
         window.print()
-        // Opcional: Cerrar la ventana después de imprimir
-        // window.close() 
       }, 2500)
       return () => clearTimeout(timer)
     }
@@ -85,7 +79,7 @@ const TiptapEditor = ({ documentId, user }: EditorProps) => {
     const interval = setInterval(async () => {
       if (!editor) return
 
-      // A) SUBIDA (Si escribí algo nuevo)
+      // A) SUBIDA
       const currentContentStr = JSON.stringify(editor.getJSON())
       if (currentContentStr !== lastContentRef.current && editor.isFocused) {
         setStatus('Guardando...')
@@ -97,16 +91,15 @@ const TiptapEditor = ({ documentId, user }: EditorProps) => {
         setTimeout(() => setStatus('En línea'), 1000)
       }
 
-      // B) BAJADA (Si otros escribieron)
+      // B) BAJADA
       if (!editor.isFocused) {
         const { data } = await supabase.from('documents').select('content, updated_at').eq('id', documentId).single()
         const cloudContentStr = JSON.stringify(data?.content)
         
-        // Si hay cambios en la nube, los aplicamos
         if (data?.content && cloudContentStr !== currentContentStr && cloudContentStr !== lastContentRef.current) {
-           const { from, to } = editor.state.selection // Guardar cursor
+           const { from, to } = editor.state.selection 
            editor.commands.setContent(data.content)
-           editor.commands.setTextSelection({ from, to }) // Restaurar cursor
+           editor.commands.setTextSelection({ from, to }) 
            lastContentRef.current = cloudContentStr
            if(data.updated_at) setLastModified(data.updated_at)
            setStatus('Sincronizado')

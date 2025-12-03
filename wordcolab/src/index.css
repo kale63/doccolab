@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Limpieza básica */
 body { font-family: sans-serif; margin: 0; padding: 0; background: #f9f9f9; }
 
 /* TILES DE CURSORES COLABORATIVOS (NUNCA SIRVIÓ LOL) */
@@ -90,15 +89,14 @@ body { font-family: sans-serif; margin: 0; padding: 0; background: #f9f9f9; }
   pointer-events: none;
 }
 
-/* ESTILOS DE IMPRESIÓN (PDF) */
+/* ESTILOS DE IMPRESIÓN  */
 @media print {
-  /* Ocultar elementos de la interfaz */
   header, 
-  .border-b, /* Toolbar borders */
+  .border-b, 
   button, 
   input,
-  aside, /* Sidebar */
-  .fixed /* Modales */ {
+  aside, 
+  .fixed {
     display: none !important;
   }
 

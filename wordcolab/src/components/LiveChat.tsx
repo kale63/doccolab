@@ -43,7 +43,6 @@ export default function LiveChat({ documentId, user }: { documentId: string, use
     return () => { supabase.removeChannel(channel) }
   }, [documentId])
 
-  // Scroll automático al fondo
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])

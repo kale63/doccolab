@@ -6,7 +6,7 @@ export default function Auth() {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [isLogin, setIsLogin] = useState(true) // Estado para alternar vistas
+  const [isLogin, setIsLogin] = useState(true)
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,7 +25,7 @@ export default function Auth() {
       alert(errorObject.message)
     } else if (!isLogin) {
       alert('¡Cuenta creada! Revisa tu correo o inicia sesión.')
-      setIsLogin(true) // Cambiamos a login automáticamente
+      setIsLogin(true)
     }
     setLoading(false)
   }

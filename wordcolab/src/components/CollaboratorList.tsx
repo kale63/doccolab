@@ -19,7 +19,6 @@ export default function CollaboratorList({ users }: { users: any[] }) {
           return (
             <div key={i} className="flex items-center justify-between group animate-fade-in">
               <div className="flex items-center gap-3">
-                {/* Avatar */}
                 <div 
                   className="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-sm relative transition transform hover:scale-105"
                   style={{ backgroundColor: color }}

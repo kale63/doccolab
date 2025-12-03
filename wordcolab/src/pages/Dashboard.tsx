@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import type { Session } from '@supabase/supabase-js'
 import { useNavigate } from 'react-router-dom'
-// Importamos la nueva Navbar y los íconos necesarios
 import Navbar from '../components/Navbar'
 import { Plus, FileText, MoreVertical, Trash2, ExternalLink, Clock, User as UserIcon, Users, Printer } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
@@ -29,7 +28,6 @@ export default function Dashboard({ session }: { session: Session }) {
     fetchDocuments()
   }, [])
 
-  // (La función fetchDocuments es igual que antes...)
   const fetchDocuments = async () => {
     setLoading(true)
     if (!userEmail) return
@@ -58,7 +56,6 @@ export default function Dashboard({ session }: { session: Session }) {
     } else {
         const formattedSharedDocs = sharedPermissions.map((item: any) => ({
             ...item.documents,
-            // Ahora sí leemos el email real si existe, si no "Propietario"
             owner_email: item.documents.owner_email || 'Propietario' 
         })).filter((doc:any) => doc && doc.id);
         setSharedDocuments(formattedSharedDocs)
@@ -73,7 +70,7 @@ export default function Dashboard({ session }: { session: Session }) {
           title: 'Nuevo Documento', 
           content: {}, 
           owner_id: session.user.id,
-          owner_email: session.user.email, // <--- GUARDAMOS EL EMAIL AQUÍ
+          owner_email: session.user.email, 
           updated_at: new Date().toISOString() 
       }])
       .select()
@@ -86,7 +83,6 @@ export default function Dashboard({ session }: { session: Session }) {
   // 2. FUNCIÓN PARA "EXPORTAR" (IMPRIMIR)
   const printDocument = (docId: string, e: React.MouseEvent) => {
     e.stopPropagation()
-    // AHORA AGREGAMOS ?print=true AL LINK
     window.open(`/doc/${docId}?print=true`, '_blank')
     setActiveMenuDocId(null)
   }
@@ -111,7 +107,7 @@ export default function Dashboard({ session }: { session: Session }) {
   }, [])
 
 
-  // Componente de Tarjeta (Igual que antes)
+  // Componente de Tarjeta
   const DocumentCard = ({ doc, isShared = false }: { doc: Document, isShared?: boolean }) => {
     const ownerName = isShared ? (doc.owner_email?.split('@')[0] || 'Propietario') : 'Mí'
     const ownerColor = stringToColor(doc.owner_email || session.user.id)
@@ -188,10 +184,10 @@ export default function Dashboard({ session }: { session: Session }) {
     )
   }
 
-  // --- LAYOUT PRINCIPAL ACTUALIZADO ---
+  // --- LAYOUT PRINCIPAL  ---
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      {/* AQUI ESTÁ LA NUEVA BARRA SUPERIOR */}
+      {/* BARRA SUPERIOR */}
       <Navbar userEmail={userEmail} />
 
       {/* Contenido Principal Centrado */}

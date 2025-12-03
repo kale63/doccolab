@@ -9,7 +9,6 @@ interface SidebarProps {
   editor: Editor | null
   documentId: string
   user: User | null
-  // Esta es la nueva prop clave: recibimos la lista ya cocinada desde TiptapEditor
   onlineUsers?: any[] 
 }
 
@@ -48,7 +47,6 @@ export default function Sidebar({ editor, documentId, user, onlineUsers = [] }: 
       {/* Contenido Dinámico */}
       <div className="flex-1 overflow-hidden flex flex-col">
         {activeTab === 'collabs' ? (
-          // Pasamos la lista limpia a CollaboratorList
           <CollaboratorList users={onlineUsers} />
         ) : (
           <div className="h-full flex flex-col">

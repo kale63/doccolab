@@ -26,19 +26,17 @@ export default function ShareModal({ documentId, isOpen, onClose }: ShareModalPr
         return
     }
 
-    // Insertamos el permiso en la tabla que creamos
     const { error } = await supabase
       .from('document_permissions')
       .insert({
         document_id: documentId,
-        user_email: email.trim().toLowerCase(), // Normalizamos el email
-        permission_type: 'edit' // Por defecto les damos permiso de editar
+        user_email: email.trim().toLowerCase(),
+        permission_type: 'edit' 
       })
 
     setLoading(false)
 
     if (error) {
-      // Código 23505 es "Duplicado" en Postgres (Ya estaba compartido)
       if (error.code === '23505') {
         setMessage({ text: '¡Este usuario ya tiene acceso!', type: 'error' })
       } else {
@@ -47,7 +45,6 @@ export default function ShareModal({ documentId, isOpen, onClose }: ShareModalPr
     } else {
       setMessage({ text: '¡Invitación enviada correctamente!', type: 'success' })
       setEmail('')
-      // Opcional: cerrar después de unos segundos
       setTimeout(onClose, 2000)
     }
   }

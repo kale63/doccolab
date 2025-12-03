@@ -8,18 +8,17 @@ import Profile from './pages/Profile.tsx'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 function App() {
-  // Le decimos a TS: "Esto puede ser una Sesión o null"
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    // 1. Ver si ya hay sesión activa
+    // 1. sesión activa
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       setLoading(false)
     })
 
-    // 2. Escuchar cambios (login/logout)
+    // 2. login/logout
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
     })

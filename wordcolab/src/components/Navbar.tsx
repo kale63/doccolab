@@ -11,7 +11,6 @@ export default function Navbar({ userEmail }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
-  // Cerrar el menú si se hace clic fuera
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -38,7 +37,7 @@ export default function Navbar({ userEmail }: NavbarProps) {
             <h1 className="text-xl font-bold text-gray-900 hidden sm:block">
               DocCollab
             </h1>
-             {/* Navegación simple (opcional) */}
+             {/* Navegación simple */}
              <nav className="hidden md:flex ml-10 space-x-4">
                 <Link to="/dashboard" className="text-blue-600 font-medium flex items-center gap-2 px-3 py-2 rounded-md bg-blue-50">
                     <FileText size={18} /> Tablero

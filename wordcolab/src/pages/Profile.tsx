@@ -12,7 +12,6 @@ export default function Profile({ session }: { session: Session }) {
   const navigate = useNavigate()
 
   useEffect(() => {
-    // Cargar nombre actual si existe
     if (session.user.user_metadata?.full_name) {
       setFullName(session.user.user_metadata.full_name)
     }
@@ -22,12 +21,12 @@ export default function Profile({ session }: { session: Session }) {
     e.preventDefault()
     setLoading(true)
 
-    // 1. Actualizar Nombre (Metadata)
+    // 1. Actualizar Nombre
     const { error: nameError } = await supabase.auth.updateUser({
       data: { full_name: fullName }
     })
 
-    // 2. Actualizar Contraseña (si escribió algo)
+    // 2. Actualizar Contraseña
     let passMsg = ''
     if (password) {
       const { error: passError } = await supabase.auth.updateUser({ password: password })
@@ -38,7 +37,7 @@ export default function Profile({ session }: { session: Session }) {
     if (nameError) alert('Error: ' + nameError.message)
     else {
         alert(`Perfil${passMsg} actualizado correctamente`)
-        setPassword('') // Limpiar campo pass
+        setPassword('')
     }
     setLoading(false)
   }

@@ -11,6 +11,5 @@ export default function DocumentPage({ session }: DocumentPageProps) {
 
   if (!id) return <div>Error: ID no válido</div>
 
-  // Quitamos todos los divs extra, el Editor se encarga del layout completo
   return <TiptapEditor documentId={id} user={session.user} />
 }
